@@ -15,10 +15,7 @@ public class MainActivity extends AppCompatActivity {
     //numero de ranas:
     final int numRanas = 12;
     //declaramos los nombres de las imagenes que se utilizarán:
-    final String imgRana1= "rana1";
-    final String imgRana2= "rana2";
-    //tamaño de las imagenes:
-    int tamañoImagen = 110;
+    final String[] imgRanas ={"rana1","rana2","rana3","rana4","rana5"};
     //declaración random:
     Random aleatorio = new Random();
     //numRandom guardara los números random:
@@ -54,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         final Button btnNuevaPartida = (Button) findViewById(R.id.nuevaPartida);
 
         //creamos las imagenes:
-        creaImagenesEnLayouts(ranas1, linearLayout1_1, linearLayout1_2, linearLayout1_3, linearLayout1_4, imgRana1, tamañoImagen);
-        creaImagenesEnLayouts(ranas2, linearLayout2_1, linearLayout2_2, linearLayout2_3, linearLayout2_4, imgRana2, tamañoImagen);
+        creaImagenesEnLayouts(ranas1, linearLayout1_1, linearLayout1_2, linearLayout1_3, linearLayout1_4, imgRanas);
+        creaImagenesEnLayouts(ranas2, linearLayout2_1, linearLayout2_2, linearLayout2_3, linearLayout2_4, imgRanas);
 
         //determinamos las imagenes visibles y las invisibles:
         RandomizarVisivilidadArrayImageView(ranas1);
@@ -93,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
      * @param ranas1 Array ImageView
      * @param ranas2 Array ImageView
      */
-    public void gestionaRespuesta(String eleccion, ImageButton btnEleccion, ImageView ranas1[], ImageView ranas2[]){
+    public void gestionaRespuesta(String eleccion, ImageButton btnEleccion, ImageView[] ranas1, ImageView[] ranas2){
         Drawable imagenEleccion =  StringToDrawable(eleccion);
         btnEleccion.setImageDrawable(imagenEleccion);
         resultado = compruebaResultado(ranas1,ranas2,eleccion);
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
      * @param resultado boolean
      */
     public void muestraResultado(boolean resultado){
-        if(resultado==true) {
+        if(resultado) {
             Toast.makeText(MainActivity.this, "Has acertado!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(MainActivity.this, "Estas segur@?", Toast.LENGTH_SHORT).show();
@@ -127,10 +124,9 @@ public class MainActivity extends AppCompatActivity {
      * @param eleccion String cuyo valor representa la elección del usuario
      * @return boolean true si la respuesta del usuario es correcta.
      */
-    public boolean compruebaResultado(ImageView img1[], ImageView img2[], String eleccion) {
+    public boolean compruebaResultado(ImageView[] img1, ImageView[] img2, String eleccion) {
         int contador1 = 0;
         int contador2 = 0;
-        int cont = 0;
 
         for (int i = 0; i < img1.length; i++) {
             //las imagenes visibles incrementan los contadores:
@@ -142,19 +138,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (eleccion.equals("equal")){
-            if (contador1 == contador2) {
-                return true;
+        switch (eleccion) {
+            case "equal":
+                if (contador1 == contador2) {
+                    return true;
 
-            }
-        } else if(eleccion.equals("mthan")){
-            if (contador1 > contador2) {
-                return true;
-            }
-        }else if(eleccion.equals("lthan")){
-            if (contador1 < contador2) {
-                return true;
-            }
+                }
+                break;
+            case "mthan":
+                if (contador1 > contador2) {
+                    return true;
+                }
+                break;
+            case "lthan":
+                if (contador1 < contador2) {
+                    return true;
+                }
+                break;
         }
         return false;
     }
@@ -165,12 +165,12 @@ public class MainActivity extends AppCompatActivity {
      * @param imgs array ImageView
      */
     public void RandomizarVisivilidadArrayImageView (ImageView[] imgs){
-        for(int i=0;i<imgs.length;i++) {
+        for (ImageView img : imgs) {
             numRandom = aleatorio.nextInt(2);
             if (numRandom == 0) {
-                imgs[i].setImageAlpha(255);
+                img.setImageAlpha(255);
             } else {
-                imgs[i].setImageAlpha(0);
+                img.setImageAlpha(0);
             }
         }
     }
@@ -184,27 +184,26 @@ public class MainActivity extends AppCompatActivity {
      * @param ll2 LinearLayout
      * @param ll3 LinearLayout
      * @param ll4 LinearLayout
-     * @param nombreImagen String que contiene el nombre de la imagen
-     * @param tamañoImagen int que contiene el tamaño de la imagen
+     * @param imgs array de Strings (nombres de las imagenes)
      *
      */
-    public void creaImagenesEnLayouts(ImageView[] img, LinearLayout ll1,LinearLayout ll2,LinearLayout ll3,LinearLayout ll4, String nombreImagen, int tamañoImagen) {
+    public void creaImagenesEnLayouts(ImageView[] img, LinearLayout ll1, LinearLayout ll2, LinearLayout ll3, LinearLayout ll4, String[] imgs) {
+        String imgAleatoria;
         for (int i = 0; i < img.length; i++) {
             //debemos pasarle this para que no nos lea null en la referencia del array donde apunta el contador:
             img[i] = new ImageView(this);
-
-           creaImagen(img[i],nombreImagen);
-
+            imgAleatoria = randomizarImagen(imgs);
+            creaImagen(img[i],imgAleatoria);
             adaptaImagenALayout(img[i]);
 
             //cada layout solo contendrá 3 ranas, este if-else se encargará de organizarlas:
             if (i <= 2) {
                 ll1.addView(img[i]);
-            } else if (i <= 5 && i > 2) {
+            } else if (i <= 5) {
                 ll2.addView(img[i]);
-            } else if (i <= 8 && i > 5) {
+            } else if (i <= 8) {
                 ll3.addView(img[i]);
-            } else if (i > 8) {
+            } else {
                 ll4.addView(img[i]);
             }
 
@@ -255,7 +254,18 @@ public class MainActivity extends AppCompatActivity {
         //encontramos el que nos interesa:
         int resId = res.getIdentifier(nombreImagen, "drawable", this.getPackageName());
         //Declaramos la variable de tipo drawable y le pasamos el identificador:
-        Drawable imagen = getResources().getDrawable(resId);
-        return imagen;
+        return getResources().getDrawable(resId);
+    }
+
+    /** Dado un array de Strings, randomizarImagenes retorna un String aleatorio del array.
+     *
+     * @param imagenes array con Strings de los nombres de las imagenes
+     * @return String nombre aleatorio del array
+     */
+    public String randomizarImagen(String[] imagenes){
+        String imgAleatoria;
+        //tomamos una imagen aleatoria entre las declaradas en el array imgRanas:
+        imgAleatoria=imagenes[aleatorio.nextInt(imagenes.length)];
+        return imgAleatoria;
     }
 }
