@@ -17,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
     //declaramos los nombres de las imagenes que se utilizarán:
     final String imgRana1= "rana1";
     final String imgRana2= "rana2";
-    //final String imgRanas[]={"rana1","rana2","rana3","rana4","rana5"};
+    //tamaño de las imagenes:
+    int tamañoImagen = 110;
     //declaración random:
     Random aleatorio = new Random();
     //numRandom guardara los números random:
@@ -53,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         final Button btnNuevaPartida = (Button) findViewById(R.id.nuevaPartida);
 
         //creamos las imagenes:
-        creaImagenesEnLayouts(ranas1, linearLayout1_1, linearLayout1_2, linearLayout1_3, linearLayout1_4, imgRana1);
-        creaImagenesEnLayouts(ranas2, linearLayout2_1, linearLayout2_2, linearLayout2_3, linearLayout2_4, imgRana2);
+        creaImagenesEnLayouts(ranas1, linearLayout1_1, linearLayout1_2, linearLayout1_3, linearLayout1_4, imgRana1, tamañoImagen);
+        creaImagenesEnLayouts(ranas2, linearLayout2_1, linearLayout2_2, linearLayout2_3, linearLayout2_4, imgRana2, tamañoImagen);
 
         //determinamos las imagenes visibles y las invisibles:
         RandomizarVisivilidadArrayImageView(ranas1);
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+
     /** RandomizarVisivilidadArrayImageView determina el Alpha de las imagenes del array en 0 o en 255 aleatoriamente.
      *
      * @param imgs array ImageView
@@ -183,13 +185,17 @@ public class MainActivity extends AppCompatActivity {
      * @param ll3 LinearLayout
      * @param ll4 LinearLayout
      * @param nombreImagen String que contiene el nombre de la imagen
+     * @param tamañoImagen int que contiene el tamaño de la imagen
+     *
      */
-    public void creaImagenesEnLayouts(ImageView[] img, LinearLayout ll1,LinearLayout ll2,LinearLayout ll3,LinearLayout ll4, String nombreImagen) {
+    public void creaImagenesEnLayouts(ImageView[] img, LinearLayout ll1,LinearLayout ll2,LinearLayout ll3,LinearLayout ll4, String nombreImagen, int tamañoImagen) {
         for (int i = 0; i < img.length; i++) {
             //debemos pasarle this para que no nos lea null en la referencia del array donde apunta el contador:
             img[i] = new ImageView(this);
 
            creaImagen(img[i],nombreImagen);
+
+            adaptaImagenALayout(img[i]);
 
             //cada layout solo contendrá 3 ranas, este if-else se encargará de organizarlas:
             if (i <= 2) {
@@ -207,20 +213,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** adapta imagen a layout crea un LayoutParams para asignarle un peso a la imagen y así
+     * adaptarla al layout
+     *
+     * @param img ImageView
+     */
+    public void adaptaImagenALayout(ImageView img){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.weight = 1.0f;
+        img.setLayoutParams(params);
+    }
+
     /** creaImagen inyecta una imagen a un ImageView.
      *
      * @param iv ImageView
      * @param nombreImagen String nombre de la imagen
      */
     public void creaImagen(ImageView iv, String nombreImagen){
-        /*para crear la imagen podemos hacer lo siguiente:
-            Drawable imagen = getDrawable(R.drawable.rana1);
-        el problema es que 'rana1' esta escrito sin referenciar a una variable, por lo que no es flexible.
-        así que intentamos hacer lo siguiente:
-            Drawable imagen = getDrawable(R.drawable.nombreImagen);
-        no funciona, porque no podemos introducir una variable aquí. Por lo que lo haremos de otra forma:
-        crearemos una variable de tipo resources para poder pasarle el nombre de la imagen con una variable.
-         */
+         /*para crear la imagen podemos hacer lo siguiente:
+                Drawable imagen = getDrawable(R.drawable.rana1);
+            el problema es que 'rana1' esta escrito sin referenciar a una variable, por lo que no es flexible.
+            así que intentamos hacer lo siguiente:
+                Drawable imagen = getDrawable(R.drawable.nombreImagen);
+            no funciona, porque no podemos introducir una variable aquí. Por lo que lo haremos de otra forma:
+            crearemos una variable de tipo resources para poder pasarle el nombre de la imagen con una variable.
+             */
+
         Drawable imagen = StringToDrawable(nombreImagen);
         iv.setImageDrawable(imagen);
     }
