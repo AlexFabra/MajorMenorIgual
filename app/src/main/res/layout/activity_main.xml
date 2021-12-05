@@ -8,161 +8,179 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="3"
-    android:layout_marginTop="20dp"
-    android:orientation="horizontal"
-    >
 
     <LinearLayout
-        android:id="@+id/linear1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:id="@+id/linear1_1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
+        android:layout_gravity="right"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linear1_2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear1_3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
-        <LinearLayout
-            android:id="@+id/linear1_4"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-
-        <ImageButton
-            android:id="@+id/eleccion"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/question" />
+            android:layout_gravity="right"
+            android:text="puntuación: " />
 
+        <TextView
+            android:id="@+id/puntuacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="0" />
     </LinearLayout>
+
 
     <LinearLayout
-        android:id="@+id/linear2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:background="@color/colorGreen"
-        >
-        <LinearLayout
-            android:id="@+id/linear2_1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/linear2_2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:id="@+id/linear1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linear1_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear1_2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear1_3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear1_4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear2_3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/eleccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/question" />
+
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear2_4"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:id="@+id/linear2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            ></LinearLayout>
+            android:background="@color/colorGreen"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linear2_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear2_2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear2_3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear2_4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="horizontal"></LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:orientation="horizontal"
-    android:layout_gravity="center"
-    tools:ignore="Suspicious0dp">
-    <ImageButton
-        android:id="@+id/mthan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/mthan" />
-    <ImageButton
-        android:id="@+id/equal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/equal" />
-    <ImageButton
-        android:id="@+id/lthan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/lthan" />
-</LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_gravity="center"
-        >
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        tools:ignore="Suspicious0dp">
+
+        <ImageButton
+            android:id="@+id/mthan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/mthan" />
+
+        <ImageButton
+            android:id="@+id/equal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/equal" />
+
+        <ImageButton
+            android:id="@+id/lthan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/lthan" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+
         <Button
             android:id="@+id/nuevaPartida"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/reiniciaCat"
-            android:background="@color/colorSilver"></Button>
+            android:background="@color/colorSilver"
+            android:text="@string/reiniciaCat"></Button>
     </LinearLayout>
 </LinearLayout>

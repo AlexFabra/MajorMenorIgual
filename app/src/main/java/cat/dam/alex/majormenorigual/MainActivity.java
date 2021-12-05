@@ -7,7 +7,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,38 +20,74 @@ public class MainActivity extends AppCompatActivity {
     //declaramos los nombres de las imagenes que se utilizarán:
     final String[] imgRanas ={"rana1","rana2","rana3","rana4","rana5"};
     //declaración random:
-    Random aleatorio = new Random();
+    private Random aleatorio = new Random();
     //numRandom guardara los números random:
-    int numRandom=0;
-    boolean resultado;
-    String eleccionUsuario ="";
+    private int numRandom=0;
+    private boolean resultado;
+    private String eleccionUsuario ="";
+    private int puntuacion;
+    private static final String PUNTUACION = "playerScore";
+    private TextView tv_puntuacion;
+    private ImageButton btnMthan, btnLthan,btnEqual,btnEleccion;
+    private Button btnNuevaPartida;
+    private ImageView[] ranas1, ranas2;
+    private LinearLayout linearLayout1_1,linearLayout1_2,linearLayout1_3,linearLayout1_4,
+    linearLayout2_1,linearLayout2_2,linearLayout2_3,linearLayout2_4;
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Desa l’estat actual del joc de l’usuari
+        savedInstanceState.putInt(PUNTUACION, puntuacion);
+        // Sempre cridem a la superclasse perquè desi també la jerarquia de vistes actual
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void onResume(){
+        super.onResume();
+        //para guardar la puntuación:
+        //creem una variable per guardar la dada al layout:
+        TextView tv_puntuacion = (TextView) findViewById(R.id.puntuacion);
+        //guardamos el casting String de puntuación:
+        String puntuacionS = String.valueOf(puntuacion);
+        //lo guardamos en el elemento del layout:
+        tv_puntuacion.setText(puntuacionS);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState != null) {
+            // Restaura els valors que s’han desat de l’estat
+            puntuacion = savedInstanceState.getInt(PUNTUACION);
+            onResume();
+        }
+
         //declaramos los arrays que guardarán ranas de dos tipos:
         //creamos dos arrays para luego contar el número de ranas visibles en cada uno y compararlos.
-        ImageView[] ranas1 = new ImageView[numRanas];
-        ImageView[]  ranas2= new ImageView[numRanas];
+        ranas1 = new ImageView[numRanas];
+        ranas2= new ImageView[numRanas];
 
         //sincronizamos los linearLayout:
-        final LinearLayout linearLayout1_1 = (LinearLayout) findViewById(R.id.linear1_1);
-        final LinearLayout linearLayout1_2 = (LinearLayout) findViewById(R.id.linear1_2);
-        final LinearLayout linearLayout1_3 = (LinearLayout) findViewById(R.id.linear1_3);
-        final LinearLayout linearLayout1_4 = (LinearLayout) findViewById(R.id.linear1_4);
+        linearLayout1_1 = (LinearLayout) findViewById(R.id.linear1_1);
+        linearLayout1_2 = (LinearLayout) findViewById(R.id.linear1_2);
+        linearLayout1_3 = (LinearLayout) findViewById(R.id.linear1_3);
+        linearLayout1_4 = (LinearLayout) findViewById(R.id.linear1_4);
 
-        final LinearLayout linearLayout2_1 = (LinearLayout) findViewById(R.id.linear2_1);
-        final LinearLayout linearLayout2_2 = (LinearLayout) findViewById(R.id.linear2_2);
-        final LinearLayout linearLayout2_3 = (LinearLayout) findViewById(R.id.linear2_3);
-        final LinearLayout linearLayout2_4 = (LinearLayout) findViewById(R.id.linear2_4);
+        linearLayout2_1 = (LinearLayout) findViewById(R.id.linear2_1);
+        linearLayout2_2 = (LinearLayout) findViewById(R.id.linear2_2);
+        linearLayout2_3 = (LinearLayout) findViewById(R.id.linear2_3);
+        linearLayout2_4 = (LinearLayout) findViewById(R.id.linear2_4);
 
         //sincronizamos los botones:
-        final ImageButton btnMthan = (ImageButton) findViewById(R.id.mthan);
-        final ImageButton btnLthan = (ImageButton) findViewById(R.id.lthan);
-        final ImageButton btnEqual = (ImageButton) findViewById(R.id.equal);
-        final ImageButton btnEleccion = (ImageButton) findViewById(R.id.eleccion);
-        final Button btnNuevaPartida = (Button) findViewById(R.id.nuevaPartida);
+        btnMthan = (ImageButton) findViewById(R.id.mthan);
+        btnLthan = (ImageButton) findViewById(R.id.lthan);
+        btnEqual = (ImageButton) findViewById(R.id.equal);
+        btnEleccion = (ImageButton) findViewById(R.id.eleccion);
+        btnNuevaPartida = (Button) findViewById(R.id.nuevaPartida);
+
+        //sincronizamos la puntuación:
+        tv_puntuacion = (TextView) findViewById(R.id.puntuacion);
 
         //creamos las imagenes:
         creaImagenesEnLayouts(ranas1, linearLayout1_1, linearLayout1_2, linearLayout1_3, linearLayout1_4, imgRanas);
@@ -60,17 +99,18 @@ public class MainActivity extends AppCompatActivity {
 
         btnMthan.setOnClickListener(view -> {
             eleccionUsuario = "mthan";
-            gestionaRespuesta(eleccionUsuario,btnEleccion,ranas1,ranas2);
+            puntuacion=gestionaRespuesta(eleccionUsuario,btnEleccion,ranas1,ranas2,tv_puntuacion,puntuacion);
         });
 
         btnLthan.setOnClickListener(view -> {
             eleccionUsuario = "lthan";
-            gestionaRespuesta(eleccionUsuario,btnEleccion,ranas1,ranas2);
+            puntuacion=gestionaRespuesta(eleccionUsuario,btnEleccion,ranas1,ranas2,tv_puntuacion,puntuacion);
         });
 
         btnEqual.setOnClickListener(view -> {
             eleccionUsuario = "equal";
-            gestionaRespuesta(eleccionUsuario,btnEleccion,ranas1,ranas2);
+            puntuacion=gestionaRespuesta(eleccionUsuario,btnEleccion,ranas1,ranas2,tv_puntuacion,puntuacion);
+
         });
         btnNuevaPartida.setOnClickListener(view -> {
             Drawable imagen =  getDrawable(R.drawable.question);
@@ -90,18 +130,20 @@ public class MainActivity extends AppCompatActivity {
      * @param ranas1 Array ImageView
      * @param ranas2 Array ImageView
      */
-    public void gestionaRespuesta(String eleccion, ImageButton btnEleccion, ImageView[] ranas1, ImageView[] ranas2){
+    public int gestionaRespuesta(String eleccion, ImageButton btnEleccion, ImageView[] ranas1, ImageView[] ranas2,TextView tv_puntuacion, int puntuacion){
         Drawable imagenEleccion =  StringToDrawable(eleccion);
         btnEleccion.setImageDrawable(imagenEleccion);
         resultado = compruebaResultado(ranas1,ranas2,eleccion);
         muestraResultado(resultado);
         //si la elección es correcta, se reinicia la partida:
         if(resultado){
+            puntuacion=actualizaPuntuacion(tv_puntuacion,puntuacion);
             Drawable imagenCuestion =  getDrawable(R.drawable.question);
             btnEleccion.setImageDrawable(imagenCuestion);
             RandomizarVisivilidadArrayImageView(ranas1);
             RandomizarVisivilidadArrayImageView(ranas2);
         }
+        return puntuacion;
     }
 
     /** muestraResultado crea un toast de feedback para el usuario.
@@ -142,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
             case "equal":
                 if (contador1 == contador2) {
                     return true;
-
                 }
                 break;
             case "mthan":
@@ -267,5 +308,10 @@ public class MainActivity extends AppCompatActivity {
         //tomamos una imagen aleatoria entre las declaradas en el array imgRanas:
         imgAleatoria=imagenes[aleatorio.nextInt(imagenes.length)];
         return imgAleatoria;
+    }
+    public int actualizaPuntuacion(TextView tv_puntuacion,int puntuacion){
+        puntuacion+=10;
+        tv_puntuacion.setText(String.valueOf(puntuacion));
+        return puntuacion;
     }
 }
