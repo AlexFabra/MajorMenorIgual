@@ -271,15 +271,6 @@ public class MainActivity extends AppCompatActivity {
      * @param nombreImagen String nombre de la imagen
      */
     public void creaImagen(ImageView iv, String nombreImagen){
-         /*para crear la imagen podemos hacer lo siguiente:
-                Drawable imagen = getDrawable(R.drawable.rana1);
-            el problema es que 'rana1' esta escrito sin referenciar a una variable, por lo que no es flexible.
-            así que intentamos hacer lo siguiente:
-                Drawable imagen = getDrawable(R.drawable.nombreImagen);
-            no funciona, porque no podemos introducir una variable aquí. Por lo que lo haremos de otra forma:
-            crearemos una variable de tipo resources para poder pasarle el nombre de la imagen con una variable.
-             */
-
         Drawable imagen = StringToDrawable(nombreImagen);
         iv.setImageDrawable(imagen);
     }
